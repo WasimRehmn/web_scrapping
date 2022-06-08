@@ -26,8 +26,6 @@ const start = async () => {
     await page.waitForSelector(".textPrefix___8VBSV");
     let loadBtn = (await page.$(".ant-btn")) || "";
 
-    const latlng = [];
-
     while (loadBtn != "") {
         await loadBtn.click();
         page.on("response", async (response) => {
@@ -44,7 +42,10 @@ const start = async () => {
                         while (json[j] !== "}") {
                             j++;
                         }
-                        latlng.push(json.substring(i, j));
+
+                        fs.writeFile("info.txt", json.substring(i, j) + "\n", {
+                            flag: "a",
+                        });
                     }
                 }
             }
@@ -52,8 +53,6 @@ const start = async () => {
         await page.waitForTimeout(1000);
         loadBtn = (await page.$(".ant-btn")) || "";
     }
-
-    await fs.writeFile("info.txt", latlng.join("\r\n"));
 
     await browser.close();
 };
