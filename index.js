@@ -49,11 +49,11 @@ const start = async () => {
                 }
             }
         });
-        // await page.waitForTimeout(1000);
+        await page.waitForTimeout(1000);
         loadBtn = (await page.$(".ant-btn")) || "";
     }
 
-    await fs.writeFile("info.txt", latlng.json("\r\n"));
+    await fs.writeFile("info.txt", latlng.join("\r\n"));
 
     await browser.close();
 };
